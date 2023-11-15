@@ -1,0 +1,68 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build consumer",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/order-app/consumer/consumer.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "dependsOn": "dapr consumer",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "dapr consumer",
+      "command": "dapr",
+      "args": [
+        "run",
+        "--app-id",
+        "consumer",
+        "--components-path",
+        "${workspaceFolder}/local-dapr-resources",
+        "--app-port",
+        "5300",
+        "--dapr-grpc-port",
+        "5302",
+        "--dapr-http-port",
+        "5301"
+      ],
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": [
+          {
+            "regexp": ".",
+            "file": 1,
+            "location": 2,
+            "message": 3
+          }
+        ],
+        "background": {
+          "beginsPattern": "^.*Starting Dapr.*",
+          "endsPattern": "^.*You're up and running!.*"
+        }
+      }
+    },
+    {
+      "label": "dapr stop consumer",
+      "command": "dapr",
+      "args": ["stop", "consumer"],
+      "promptOnClose": false
+    },
+    {
+      "label": "publish consumer",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "publish",
+        "${workspaceFolder}/order-app/consumer/consumer.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

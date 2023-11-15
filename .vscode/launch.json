@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug consumer",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build consumer",
+      "postDebugTask": "dapr stop consumer",
+      "program": "${workspaceFolder}/order-app/consumer/bin/Debug/net6.0/consumer.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/order-app/consumer",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://*:5300",
+        "DAPR_HTTP_PORT": "5301",
+        "DAPR_GRPC_PORT": "5302"
+      }
+    }
+  ]
+}
